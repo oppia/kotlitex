@@ -1,6 +1,6 @@
-load("@rules_jvm_external//:defs.bzl", "artifact")
+load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "kt_android_library")
 
-android_library(
+kt_android_library(
     name = "kotlitex",
     custom_package = "io.github.karino2.kotlitex",
     srcs = glob(["src/main/java/**/*.kt"]),
