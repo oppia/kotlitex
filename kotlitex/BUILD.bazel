@@ -4,7 +4,10 @@ kt_android_library(
     name = "kotlitex",
     custom_package = "io.github.karino2.kotlitex",
     srcs = glob(["src/main/java/**/*.kt"]),
-    resource_files = glob(["src/main/res/**"]),
+    assets = glob(
+        ["src/main/assets/**"],
+    ),
+    assets_dir = "src/main/assets/",
     manifest = "src/main/AndroidManifest.xml",
     exports_manifest = True,
     visibility = ["//visibility:public"],
