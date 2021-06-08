@@ -11,4 +11,17 @@ kt_android_library(
     manifest = "src/main/AndroidManifest.xml",
     exports_manifest = True,
     visibility = ["//visibility:public"],
+    deps = [
+      artifact("androidx.appcompat:appcompat"),
+      artifact("androidx.test.espresso:espresso-core"),
+      artifact("androidx.test.ext:junit"),
+      artifact("androidx.test:runner"),
+      artifact("org.jetbrains.kotlinx:kotlinx-coroutines-core"),
+      artifact("org.jetbrains.kotlinx:kotlinx-coroutines-android"),
+      artifact("androidx.appcompat:appcompat"),
+      artifact("androidx.test:core"),
+      artifact("androidx.test.ext:junit"),
+      artifact("junit:junit"),
+      artifact("androidx.test:rules"),
+    ],
 )
