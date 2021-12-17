@@ -669,7 +669,7 @@ class Parser(val input: String, val settings: Settings = Settings()) {
         var symbol: ParseNode
         if (Symbols.get(mode).containsKey(text)) {
             if (settings.strict != null && mode == Mode.MATH &&
-                Symbols.extraLatin.contains(text)) {
+                extraLatin.contains(text)) {
                 this.settings.reportNonstrict("unicodeTextInMathMode",
                     "Latin-1/Unicode text character \"${text[0]}\" used in " +
                             "math mode", nucleus)

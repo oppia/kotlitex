@@ -8,6 +8,12 @@ data class CharacterMetrics(
     val width: Double
 )
 
+// We add these Latin-1 letters as symbols for backwards-compatibility,
+// but they are not actually in the font, nor are they supported by the
+// Unicode accent mechanism, so they fall back to Times font and look ugly.
+// TODO(edemaine): Fix this.
+const val extraLatin = "ÇÐÞçþ"
+
 object Symbols {
     val mathMap: MutableMap<String, CharInfo> = mutableMapOf()
     val textMap: MutableMap<String, CharInfo> = mutableMapOf()
@@ -148,12 +154,6 @@ object Symbols {
     init {
         SymbolDefinitions.defineAllSymbols()
     }
-
-    // We add these Latin-1 letters as symbols for backwards-compatibility,
-    // but they are not actually in the font, nor are they supported by the
-    // Unicode accent mechanism, so they fall back to Times font and look ugly.
-    // TODO(edemaine): Fix this.
-    val extraLatin = "ÇÐÞçþ"
 
     val unicodeAccents = mapOf(
         '\u0301' to AccentRelation("\\'", "\\acute"),

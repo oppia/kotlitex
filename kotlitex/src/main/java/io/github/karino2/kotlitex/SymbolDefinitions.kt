@@ -833,7 +833,6 @@ object SymbolDefinitions {
         // but they are not actually in the font, nor are they supported by the
         // Unicode accent mechanism, so they fall back to Times font and look ugly.
         // TODO(edemaine): Fix this.
-        val extraLatin = Symbols.extraLatin
         for (cha in extraLatin) {
             val ch = cha.toString()
             defineSymbol(math, main, mathord, ch, ch)
