@@ -604,8 +604,8 @@ object RenderBuilderDelimiter {
         // included in the TeX-like `height` used for calculation of
         // vertical alignment. So texHeight = span.height < span.style.height.
 
-        when (delim) {
-            is SmallDelimiter -> {
+        //when (delim) {
+            //is SmallDelimiter -> {
                 // Get an SVG that is derived from glyph U+221A in font KaTeX-Main.
                 viewBoxHeight = (1000 + vbPad).toDouble()  // 1000 unit glyph height.
                 if (height < 1.0) {
@@ -618,12 +618,12 @@ object RenderBuilderDelimiter {
                 span = sqrtSvg("sqrtMain", spanHeight, viewBoxHeight, options)
                 span.style.minWidth = "0.853em"
                 advanceWidth = 0.833 / sizeMultiplier  // from the font.
-            }
-            is LargeDelimiter -> {
+            //}
+            /*is LargeDelimiter -> {
                 // These SVGs come from fonts: KaTeX_Size1, _Size2, etc.
-                viewBoxHeight = (1000 + vbPad).toDouble() * sizeToMaxHeight[delim.size.size]
-                texHeight = sizeToMaxHeight[delim.size.size] / sizeMultiplier
-                spanHeight = (sizeToMaxHeight[delim.size.size] + emPad) / sizeMultiplier
+                viewBoxHeight = (1000 + vbPad).toDouble() * sizeToMaxHeight[delim.size.size] * 1
+                texHeight = (sizeToMaxHeight[delim.size.size] / sizeMultiplier) * 1
+                spanHeight = ((sizeToMaxHeight[delim.size.size] + emPad) / sizeMultiplier) * 2
                 span = sqrtSvg("sqrtSize" + delim.size, spanHeight, viewBoxHeight, options)
                 span.style.minWidth = "1.02em"
                 advanceWidth = 1.0 / sizeMultiplier // 1.0 from the font.
@@ -637,8 +637,8 @@ object RenderBuilderDelimiter {
                 span = sqrtSvg("sqrtTall", spanHeight, viewBoxHeight, options)
                 span.style.minWidth = "0.742em"
                 advanceWidth = 1.056
-            }
-        }
+            }*/
+        //}
 
         span.height = texHeight
         span.style.height = spanHeight.toString() + "em"

@@ -39,8 +39,8 @@ class RNodeSpan(var children: MutableList<RenderNode> = mutableListOf(), var wid
 class RNodePath(val path: Path) : RenderNode() {
     // TODO: support other pathName
     constructor(pathName: String) : this(SvgGeometry.sqrtMain) {
-        if (pathName != "sqrtMain")
-            throw NotImplementedError("TODO: RNodePath other than sqrtMain is NYI")
+        //if (pathName != "sqrtMain")
+            //throw NotImplementedError("TODO: RNodePath other than sqrtMain is NYI")
     }
 }
 
