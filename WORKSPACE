@@ -28,15 +28,15 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 maven_install(
      artifacts = [
-        "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-RC",
-        "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-RC",
-        "androidx.appcompat:appcompat:1.0.2",
-        "androidx.test:core:1.0.0",
-        "androidx.test.espresso:espresso-core:3.2.0",
-        "androidx.test.ext:junit:1.0.0",
-        "junit:junit:4.12",
-        "androidx.test:rules:1.1.0",
-        "androidx.test:runner:1.1.1"
+        #"org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-RC",
+        #"org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-RC",
+        #"androidx.appcompat:appcompat:1.0.2",
+        #"androidx.test:core:1.0.0",
+        #"androidx.test.espresso:espresso-core:3.2.0",
+        #"androidx.test.ext:junit:1.0.0",
+        #"junit:junit:4.12",
+        #"androidx.test:rules:1.1.0",
+        #"androidx.test:runner:1.1.1"
      ],
      fetch_sources = True,
      repositories =  [

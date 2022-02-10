@@ -4,13 +4,17 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'maven-publish'
+
+def  version = '1.0'
+
 android {
     compileSdkVersion 28
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName(version)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -38,6 +42,32 @@ android {
 
 }
 
+publishing {
+    publications {
+        mavenJAR(MavenPublication) {
+            afterEvaluate {
+               artifact libraryJar
+            }
+
+            pom {
+                packaging = 'jar'
+
+                name = 'KotliTeX'
+                description = 'KotliTeX is KaTeX\'s Android port, written in Kotlin.'
+                url = 'https://github.com/oppia/kotlitex'
+
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://raw.githubusercontent.com/oppia/kotlitex/master/LICENSE'
+                        distribution = 'repo'
+                    }
+                }
+            }
+        }
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -52,4 +82,15 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.0.0'
 
+}
+
+task libraryJar(type: Jar, dependsOn: 'compileReleaseKotlin') {
+    from {
+        compileReleaseKotlin.destinationDir
+    }
+    android.sourceSets.all { sourceSet ->
+        from sourceSet.assets.srcDirs
+    }
+
+    archiveName "kotlitex-${version}.jar"
 }
