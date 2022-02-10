@@ -11,6 +11,7 @@ import io.github.karino2.kotlitex.renderer.FontLoader
 import io.github.karino2.kotlitex.renderer.VirtualNodeBuilder
 import io.github.karino2.kotlitex.renderer.node.* // ktlint-disable no-wildcard-imports
 import java.lang.ref.WeakReference
+import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -223,9 +224,7 @@ class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManag
         Bottom, BaseLine
     }
 
-
-    val drawableBounds: Rect
-      get() = getCachedDrawable().bounds
+    val drawableBounds: Rect by lazy { computeDrawableBounds() }
 
     var verticalAlignment = Align.Bottom
 
@@ -268,6 +267,45 @@ class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManag
         fm.top = -ascent
 
         return (rect.right + 0.5 + padding).roundToInt()
+    }
+
+    private fun computeDrawableBounds(): Rect {
+        // TODO: consolidate this with the above.
+        val d = getCachedDrawable()
+        val rect = d.bounds
+        val baseBounds = Rect(rect)
+
+        val firstBound = d.firstVListRowBound
+        if (firstBound == null) {
+            return baseBounds
+        }
+
+        val bottom = (rect.bottom + 0.5).roundToInt()
+
+        val ascent = (0.5 + firstBound.height * 4 / 5).toInt()
+
+        /*
+        work around for \sum^N_i case. (#161)
+        In this case, firstBound.y becomes negative and normal acent calculation make ascent too upper.
+        I don't know how to handle this, so extend descend to try to avoid overlap for this case.
+         */
+        val deltaDescent = (0.5 - firstBound.y).roundToInt()
+
+        val padding = ascent / 9
+        val descent = bottom - ascent + deltaDescent
+
+        val fontAscent = -ascent - padding
+        val fontDescent = descent + padding
+
+        val fontBottom = fontDescent
+        val fontTop = -ascent
+
+        baseBounds.top = 0
+        baseBounds.bottom = max((fontDescent - fontAscent).absoluteValue, (fontBottom - fontTop).absoluteValue)
+
+        return baseBounds
+
+        //return (rect.right + 0.5 + padding).roundToInt()
     }
 
     fun ensureDrawable() {
