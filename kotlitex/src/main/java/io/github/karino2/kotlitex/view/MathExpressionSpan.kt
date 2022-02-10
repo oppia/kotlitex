@@ -223,6 +223,10 @@ class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManag
         Bottom, BaseLine
     }
 
+
+    val drawableBounds: Rect
+      get() = getCachedDrawable().bounds
+
     var verticalAlignment = Align.Bottom
 
     override fun getSize(paint: Paint, text: CharSequence?, start: Int, end: Int, fm: Paint.FontMetricsInt?): Int {
