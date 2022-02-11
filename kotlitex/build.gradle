@@ -84,12 +84,14 @@ dependencies {
 
 }
 
-task libraryJar(type: Jar, dependsOn: 'compileReleaseKotlin') {
+task libraryJar(type: Jar, dependsOn: ['compileReleaseKotlin']) {
     from {
         compileReleaseKotlin.destinationDir
     }
     android.sourceSets.all { sourceSet ->
-        from sourceSet.assets.srcDirs
+        from(sourceSet.assets.srcDirs) {
+            into "assets/"
+        }
     }
 
     archiveName "kotlitex-${version}.jar"
