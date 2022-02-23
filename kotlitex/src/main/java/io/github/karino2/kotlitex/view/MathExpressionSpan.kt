@@ -54,7 +54,7 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
         return y.toFloat()
     }
 
-    private fun drawBoundsRect(canvas: Canvas, rect: RectF, color: Int) {
+    private fun drawBoundsRect(drawableSurface: DrawableSurface, rect: RectF, color: Int) {
         if (! drawBounds) {
             return
         }
@@ -63,10 +63,10 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
         paint.strokeWidth = 2.0f
         paint.style = Paint.Style.STROKE
 
-        canvas.drawRect(rect, paint)
+        drawableSurface.drawRect(rect, paint)
     }
 
-    private fun drawBounds(canvas: Canvas, bounds: Bounds) {
+    private fun drawBounds(drawableSurface: DrawableSurface, bounds: Bounds) {
         if (! drawBounds) {
             return
         }
@@ -74,10 +74,10 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
         val x = translateX(bounds.x)
         val y = translateY(bounds.y)
 
-        drawBoundsRect(canvas, RectF(x, y - bounds.height.toFloat(), x + bounds.width.toFloat(), y), Color.RED)
+        drawBoundsRect(drawableSurface, RectF(x, y - bounds.height.toFloat(), x + bounds.width.toFloat(), y), Color.RED)
     }
 
-    private fun drawWholeBound(canvas: Canvas, bounds: Bounds) {
+    private fun drawWholeBound(drawableSurface: DrawableSurface, bounds: Bounds) {
         if (! drawBounds) {
             return
         }
@@ -98,14 +98,14 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
         val y = -ascent
         // val padding = (ascent/9).toInt()
         val padding = 0
-        drawBoundsRect(canvas, RectF(x, (y - padding).toFloat(), x + bounds.width.toFloat() + padding, y + padding*2 + (bounds.height + deltaDescent).toFloat()), Color.BLUE)
+        drawBoundsRect(drawableSurface, RectF(x, (y - padding).toFloat(), x + bounds.width.toFloat() + padding, y + padding*2 + (bounds.height + deltaDescent).toFloat()), Color.BLUE)
     }
 
-    private fun drawRenderNodes(canvas: Canvas, parent: VirtualCanvasNode) {
+    private fun drawRenderNodes(drawableSurface: DrawableSurface, parent: VirtualCanvasNode) {
         when (parent) {
             is VirtualContainerNode<*> -> {
                 parent.nodes.forEach {
-                    drawRenderNodes(canvas, it)
+                    drawRenderNodes(drawableSurface, it)
                 }
             }
             is TextNode -> {
@@ -113,22 +113,22 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
                 textPaint.textSize = parent.font.size.toFloat()
                 val x = translateX(parent.bounds.x)
                 val y = translateY(parent.bounds.y)
-                canvas.drawText(parent.text, x, y, textPaint)
-                drawBounds(canvas, parent.bounds)
+                drawableSurface.drawText(parent.text, x, y, textPaint)
+                drawBounds(drawableSurface, parent.bounds)
             }
             is HorizontalLineNode -> {
                 paint.color = Color.BLACK
                 paint.strokeWidth = max(1.0f, parent.bounds.height.toFloat())
                 val x = translateX(parent.bounds.x)
                 val y = translateY(parent.bounds.y)
-                canvas.drawLine(x, y, x + parent.bounds.width.toFloat(), y, paint)
-                drawBounds(canvas, parent.bounds)
+                drawableSurface.drawLine(x, y, x + parent.bounds.width.toFloat(), y, paint)
+                drawBounds(drawableSurface, parent.bounds)
             }
             is PathNode -> {
                 val x = translateX(parent.bounds.x)
                 val y = (translateY(parent.bounds.y) - parent.bounds.height).toFloat()
 
-                drawBounds(canvas, parent.bounds)
+                drawBounds(drawableSurface, parent.bounds)
 
                 // TODO: support other preserve aspect ratio.
                 // "xMinYMin slice"
@@ -162,25 +162,25 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
 
                 val path = Path()
 
-                canvas.save()
-                canvas.clipRect(RectF(x, y, x + wb.toFloat(), y + hb.toFloat()))
+                drawableSurface.save()
+                drawableSurface.clipRect(RectF(x, y, x + wb.toFloat(), y + hb.toFloat()))
 
                 parent.rnode.children.forEach {
                     path.reset()
                     path.addPath(it.path, mat)
-                    canvas.drawPath(path, paint)
+                    drawableSurface.drawPath(path, paint)
                 }
 
-                canvas.restore()
+                drawableSurface.restore()
                 paint.style = Paint.Style.STROKE
             }
         }
     }
 
-    fun drawAllRenderNodes(canvas: Canvas) {
+    fun drawAllRenderNodes(drawableSurface: DrawableSurface) {
         if (drawBounds)
-            drawWholeBound(canvas, calculateWholeBounds())
-        drawRenderNodes(canvas, rootNode)
+            drawWholeBound(drawableSurface, calculateWholeBounds())
+        drawRenderNodes(drawableSurface, rootNode)
     }
 
     fun calculateBounds(wholeBounds: Bounds, parent: VirtualCanvasNode) {
@@ -331,8 +331,23 @@ class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManag
         bottom: Int,
         paint: Paint
     ) {
+        canvas.save()
+        if (!isError) {
+            canvas.translate(x, y.toFloat())
+        }
+        draw(DirectDrawableSurface(canvas), text, x, y, paint)
+        canvas.restore()
+    }
+
+    fun draw(
+        drawableSurface: DrawableSurface,
+        text: CharSequence?,
+        x: Float,
+        y: Int,
+        paint: Paint
+    ) {
         if (isError) {
-            canvas.drawText("ERROR", x, y.toFloat(), paint)
+            drawableSurface.drawText("ERROR", x, y.toFloat(), paint)
             return
         }
 
@@ -340,11 +355,7 @@ class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManag
 
         // Log.d("kotlitex", "x=$x, y=$y, top=$top, ratio=$ratio, expr=$expr")
 
-        canvas.save()
-        canvas.translate(x, y.toFloat())
-        b.drawAllRenderNodes(canvas)
-
-        canvas.restore()
+        b.drawAllRenderNodes(drawableSurface)
     }
 
     private fun getDrawable(): MathExpressionDrawable {
@@ -367,4 +378,24 @@ class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManag
     }
 
     private var drawableRef: WeakReference<MathExpressionDrawable>? = null
+}
+
+interface DrawableSurface {
+    fun save()
+    fun restore()
+    fun drawText(text: String, x: Float, y: Float, paint: Paint)
+    fun clipRect(rect: RectF)
+    fun drawRect(rect: RectF, paint: Paint)
+    fun drawLine(x0: Float, y0: Float, x1: Float, y1: Float, paint: Paint)
+    fun drawPath(path: Path, paint: Paint)
+}
+
+private class DirectDrawableSurface(private val canvas: Canvas): DrawableSurface {
+    override fun save() { canvas.save() }
+    override fun restore() { canvas.save() }
+    override fun drawText(text: String, x: Float, y: Float, paint: Paint) { canvas.drawText(text, x, y, paint) }
+    override fun clipRect(rect: RectF) { canvas.clipRect(rect) }
+    override fun drawRect(rect: RectF, paint: Paint) { canvas.drawRect(rect, paint) }
+    override fun drawLine(x0: Float, y0: Float, x1: Float, y1: Float, paint: Paint) { canvas.drawLine(x0, y0, x1, y1, paint) }
+    override fun drawPath(path: Path, paint: Paint) { canvas.drawPath(path, paint) }
 }
