@@ -315,7 +315,7 @@ class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManag
             Log.d("kotlitex", err.msg)
             isError = true
         } catch (err: NotImplementedError) {
-            Log.d("kotlitex", err.message)
+            Log.d("kotlitex", err.message ?: "Not implemented")
             isError = true
         }
     }
@@ -362,7 +362,7 @@ class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManag
         // TODO: drawBounds should be always false. Unlike baseSize, we don't have to expose the flag to end-users.
         val drawable = MathExpressionDrawable(
             expr, baseHeight,
-            AndroidFontLoader(assetManager), isMathMode, drawBounds = false
+            AndroidFontLoader(assetManager), isMathMode, drawBounds = true
         )
         return drawable
     }
