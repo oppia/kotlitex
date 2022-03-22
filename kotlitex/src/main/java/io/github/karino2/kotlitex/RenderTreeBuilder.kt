@@ -30,9 +30,9 @@ object RenderTreeBuilder {
      * children.
      */
     fun sizeElementFromChildren(elem: RNodeSpan) {
-        var height = elem.children.map { it.height }.max() ?: 0.0
-        var depth = elem.children.map { it.depth }.max() ?: 0.0
-        var maxFontSize = elem.children.map { it.maxFontSize }.max() ?: 0.0
+        var height = elem.children.map { it.height }.maxOrNull() ?: 0.0
+        var depth = elem.children.map { it.depth }.maxOrNull() ?: 0.0
+        var maxFontSize = elem.children.map { it.maxFontSize }.maxOrNull() ?: 0.0
 
         elem.height = height
         elem.depth = depth
