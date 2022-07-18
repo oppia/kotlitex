@@ -37,6 +37,7 @@ data class VListParamFirstBaseLine(val children: List<VListChild>) : VListParam(
         get() = PositionType.FirstBaseLine
 }
 
+@Suppress("UNUSED_PARAMETER")
 object RenderBuilderVList {
 
     fun makeSpan(klasses: MutableSet<CssClass> = mutableSetOf(), children: MutableList<RenderNode> = mutableListOf(), options: Options? = null, style: CssStyle = CssStyle()): RNodeSpan = RenderTreeBuilder.makeSpan(klasses, children, options, style)

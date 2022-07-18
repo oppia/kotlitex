@@ -106,12 +106,13 @@ object Symbols {
     )
 
     // TODO:
+    @Suppress("UNUSED_PARAMETER")
     fun supportedCodepoint(ch: Int) = true
 
     fun getCharacterMetrics(character: String, font: String, mode: Mode): CharacterMetrics? {
         val metmap = MetricMap.metricMap[font] ?: throw Exception("Font metrics not found for font: $font.")
 
-        val chInt = (extraCharacterMap[character[0]] ?: character[0]).toInt()
+        val chInt = (extraCharacterMap[character[0]] ?: character[0]).code
         val ch = chInt.toString()
         var metric = metmap[ch]
 

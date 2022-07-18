@@ -42,11 +42,11 @@ object FunctionOp {
             // If this is a symbol, create the symbol.
             val fontName = if(large)  "Size2-Regular" else "Size1-Regular"
 
-            var stash = ""
+            //var stash = ""
             if (group.name == "\\oiint" || group.name == "\\oiiint") {
                 // No font glyphs yet, so use a glyph w/o the oval.
                 // TODO: When font glyphs are available, delete this code.
-                stash = group.name.substring(1);
+                val stash = group.name.substring(1);
                 // $FlowFixMe
                 group.name = if(stash == "oiint")  "\\iint" else  "\\iiint"
             }
@@ -84,6 +84,7 @@ object FunctionOp {
         } else if (group.body != null) {
             // karino: Is this cast always success?
             // If this is a list, compose that list.
+            @Suppress("UNCHECKED_CAST")
             val inner = RenderTreeBuilder.buildExpression(group.body as List<ParseNode>, options, true);
             if (inner.size == 1 && inner[0] is RNodeSymbol) {
                 val sym = inner[0]

@@ -38,6 +38,7 @@ class RNodeSpan(var children: MutableList<RenderNode> = mutableListOf(), var wid
 // PathNode in js.
 class RNodePath(val path: Path) : RenderNode() {
     // TODO: support other pathName
+    @Suppress("UNUSED_PARAMETER")
     constructor(pathName: String) : this(SvgGeometry.sqrtMain) {
         //if (pathName != "sqrtMain")
             //throw NotImplementedError("TODO: RNodePath other than sqrtMain is NYI")

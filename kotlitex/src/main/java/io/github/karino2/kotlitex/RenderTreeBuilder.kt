@@ -16,6 +16,7 @@ data class Measurement(val number: Int, val unit: String) {
     }
 }
 
+@Suppress("UNUSED_PARAMETER")
 object RenderTreeBuilder {
     val groupBuilders: MutableMap<String, RenderNodeHandlerType>
         get() = LatexFunctions.renderGroupBuilders
@@ -675,7 +676,7 @@ object RenderTreeBuilder {
         // Ignore explicit spaces (e.g., \;, \,) when determining what implicit
         // spacing should go between atoms of different classes, and add dummy
         // spans for determining spacings between surrounding atoms.
-        val rowNonSpace = rawGroups.filter { group -> group != null && !group.klasses.contains(CssClass.mspace) }
+        val rowNonSpace = rawGroups.filter { group -> !group.klasses.contains(CssClass.mspace) }
         val nonSpaces = listOf<RenderNode?>(null, *rowNonSpace.toTypedArray(), null)
         /* TODO:
         const nonSpaces: (?HtmlDomNode)[] = [

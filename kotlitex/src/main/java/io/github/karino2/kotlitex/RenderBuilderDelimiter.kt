@@ -587,7 +587,7 @@ object RenderBuilderDelimiter {
         val newOptions = options.havingBaseSizing()
 
         // Pick the desired surd glyph from a sequence of surds.
-        val delim = traverseSequence("\\surd", height * newOptions.sizeMultiplier, stackLargeDelimiterSequence, newOptions)
+        /*val delim = */traverseSequence("\\surd", height * newOptions.sizeMultiplier, stackLargeDelimiterSequence, newOptions)
 
         var sizeMultiplier = newOptions.sizeMultiplier  // default
 
