@@ -33,8 +33,7 @@ http_archive(
 load("@io_bazel_rules_kotlin//kotlin:repositories.bzl", "kotlin_repositories")
 kotlin_repositories() # if you want the default. Otherwise see custom kotlinc distribution below
 
-load("@io_bazel_rules_kotlin//kotlin:core.bzl", "kt_register_toolchains")
-kt_register_toolchains() # to use the default toolchain, otherwise see toolchains below
+register_toolchains("//:kt_toolchain")
 
 android_sdk_repository(
   name = "androidsdk",
