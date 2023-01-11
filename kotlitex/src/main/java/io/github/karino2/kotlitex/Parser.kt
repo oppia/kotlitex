@@ -146,7 +146,7 @@ data class AccentRelation(val text: String, val math: String) {
 
 class Parser(val input: String, val settings: Settings = Settings()) {
     companion object {
-        val endOfExpression = listOf("}", "\\end", "\\right", "&")
+        val endOfExpression by lazy { listOf("}", "\\end", "\\right", "&") }
         val SUPSUB_GREEDINESS = 1
 
         init {

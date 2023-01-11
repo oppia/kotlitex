@@ -148,11 +148,11 @@ object RenderTreeBuilder {
     }
 
     // The following have to be loaded from Main-Italic font, using class mathit
-    val mathitLetters = setOf(
+    val mathitLetters by lazy { setOf(
         "\\imath", "ı",       // dotless i
         "\\jmath", "ȷ",       // dotless j
         "\\pounds", "\\mathsterling", "\\textsterling", "£"   // pounds symbol
-    )
+    )}
 
     /**
      * Determines which of the two font names (Main-Italic and Math-Italic) and
@@ -288,7 +288,7 @@ object RenderTreeBuilder {
     // A map between tex font commands an MathML mathvariant attribute values
     data class FontMapElem(val /* bold, normal, italic */ variant: String, val fontName: String)
 
-    val fontMap = mapOf(
+    val fontMap by lazy { mapOf(
         // styles
         "mathbf" to FontMapElem("bold", "Main-Bold"),
         "mathrm" to FontMapElem(
@@ -336,19 +336,19 @@ object RenderTreeBuilder {
             "monospace",
             "Typewriter-Regular"
         )
-    )
+    )}
 
     data class OneSvgData(val path: String, val width: Double, val height: Double)
 
     // svgData in js
-    val pathData = mapOf(
+    val pathData by lazy { mapOf(
         //   path, width, height
         "vec" to OneSvgData("vec", 0.471, 0.714),                // values from the font glyph
         "oiintSize1" to OneSvgData("oiintSize1", 0.957, 0.499),  // oval to overlay the integrand
         "oiintSize2" to OneSvgData("oiintSize2", 1.472, 0.659),
         "oiiintSize1" to OneSvgData("oiiintSize1", 1.304, 0.499),
         "oiiintSize2" to OneSvgData("oiiintSize2", 1.98, 0.659)
-    )
+    )}
 
     // staticSvg in js.
     fun staticPath(value: String, options: Options): RNodePathSpan {

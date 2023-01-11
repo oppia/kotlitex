@@ -128,13 +128,13 @@ class SpannableMathSpanHandler(val assetManager: AssetManager, val baseSize: Flo
 
 class MarkdownView(context: Context, attrSet: AttributeSet) : TextView(context, attrSet) {
     companion object {
-        var CACHE_ENABLED = true
+        /*var CACHE_ENABLED = true
         var CACHE_SIZE = 1024
         val cache = object : LinkedHashMap<String, Spannable>(128, 0.75f, true) {
             override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, Spannable>?): Boolean {
                 return this.size > CACHE_SIZE
             }
-        }
+        }*/
     }
 
     var job: Job? = null

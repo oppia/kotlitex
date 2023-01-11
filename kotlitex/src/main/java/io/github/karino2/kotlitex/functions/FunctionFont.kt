@@ -12,12 +12,12 @@ object FunctionFont {
         return RenderTreeBuilder.buildGroup(group.body, newOptions)
     }
 
-    val fontAliases = mapOf(
+    val fontAliases by lazy { mapOf(
         "\\Bbb" to "\\mathbb",
         "\\bold" to "\\mathbf",
         "\\frak" to "\\mathfrak",
         "\\bm" to "\\boldsymbol"
-    )
+    )}
 
     fun defineAll() {
         LatexFunctions.defineFunction(

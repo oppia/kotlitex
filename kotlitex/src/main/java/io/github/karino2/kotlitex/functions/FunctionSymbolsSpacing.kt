@@ -6,23 +6,23 @@ import java.lang.IllegalArgumentException
 object FunctionSymbolsSpacing {
 
     // A map of CSS-based spacing functions to their CSS class.
-    val cssSpace = mapOf(
+    val cssSpace by lazy { mapOf(
         "\\nobreak" to CssClass.nobreak,
         "\\allowbreak" to CssClass.allowbreak
-    )
+    )}
 
     // A lookup table to determine whether a spacing function/symbol should be
     // treated like a regular space character.  If a symbol or command is a key
     // in this table, then it should be a regular space character.  Furthermore,
     // the associated value may have a `className` specifying an extra CSS class
     // to add to the created `span`.
-    val regularSpace = mapOf(
+    val regularSpace by lazy { mapOf(
         " " to  CssClass.EMPTY,
         "\\ " to CssClass.EMPTY,
         "~" to CssClass.nobreak,
         "\\space" to CssClass.EMPTY,
         "\\nobreakspace" to CssClass.nobreak
-    )
+    )}
 
     // (ParseNode, Options)->RenderNode
     fun renderNodeHandler(group: ParseNode, options: Options) : RenderNode {

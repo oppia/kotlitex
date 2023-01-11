@@ -1,5 +1,7 @@
 package io.github.karino2.kotlitex
 
+import java.util.concurrent.ConcurrentHashMap
+
 data class CharacterMetrics(
     val depth: Double,
     val height: Double,
@@ -15,8 +17,8 @@ data class CharacterMetrics(
 const val extraLatin = "ÇÐÞçþ"
 
 object Symbols {
-    val mathMap: MutableMap<String, CharInfo> = mutableMapOf()
-    val textMap: MutableMap<String, CharInfo> = mutableMapOf()
+    val mathMap: MutableMap<String, CharInfo> by lazy { ConcurrentHashMap() }
+    val textMap: MutableMap<String, CharInfo> by lazy { ConcurrentHashMap() }
 
     fun get(mode: Mode) = if (mode == Mode.MATH) mathMap else textMap
 
@@ -27,7 +29,7 @@ object Symbols {
     // descenders we prefer approximations with ascenders, primarily to prevent
     // the fraction bar or root line from intersecting the glyph.
     // TODO(kevinb) allow union of multiple glyph metrics for better accuracy.
-    val extraCharacterMap = mapOf(
+    val extraCharacterMap by lazy { mapOf(
         // Latin-1
         'Å' to  'A',
     'Ç' to  'C',
@@ -103,7 +105,7 @@ object Symbols {
     'э' to  'e',
     'ю' to  'm',
     'я' to  'r'
-    )
+    )}
 
     // TODO:
     @Suppress("UNUSED_PARAMETER")
@@ -156,7 +158,7 @@ object Symbols {
         SymbolDefinitions.defineAllSymbols()
     }
 
-    val unicodeAccents = mapOf(
+    val unicodeAccents by lazy { mapOf(
         '\u0301' to AccentRelation("\\'", "\\acute"),
         '\u0300' to AccentRelation("\\`", "\\grave"),
         '\u0308' to AccentRelation("\\\"", "\\ddot"),
@@ -168,9 +170,9 @@ object Symbols {
         '\u0307' to AccentRelation( "\\.",  "\\dot"),
         '\u030a' to AccentRelation( "\\r",  "\\mathring"),
         '\u030b' to AccentRelation( "\\H", "")
-    )
+    )}
 
-    val unicodeSymbols = mapOf(
+    val unicodeSymbols by lazy { mapOf(
         '\u00e1' to "\u0061\u0301",  // á = \'{a}
         '\u00e0' to "\u0061\u0300",  // à = \`{a}
         '\u00e4' to "\u0061\u0308",  // ä = \"{a}
@@ -489,5 +491,5 @@ object Symbols {
         '\u1fe8' to "\u03a5\u0306",  // Ῠ = \u{Υ}
         '\u038f' to "\u03a9\u0301",  // Ώ = \'{Ω}
         '\u1ffa' to "\u03a9\u0300"  // Ὼ = \`{Ω}
-    )
+    )}
 }

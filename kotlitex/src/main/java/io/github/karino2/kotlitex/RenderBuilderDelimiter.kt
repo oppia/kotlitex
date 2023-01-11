@@ -51,36 +51,36 @@ object RenderBuilderDelimiter {
 
     // There are three kinds of delimiters, delimiters that stack when they become
     // too large
-    val stackLargeDelimiters = listOf(
+    val stackLargeDelimiters by lazy { listOf(
     "(", "\\lparen", ")", "\\rparen",
     "[", "\\lbrack", "]", "\\rbrack",
     "\\{", "\\lbrace", "\\}", "\\rbrace",
     "\\lfloor", "\\rfloor", "\u230a", "\u230b",
     "\\lceil", "\\rceil", "\u2308", "\u2309",
     "\\surd"
-    )
+    )}
 
     // delimiters that always stack
-    val stackAlwaysDelimiters = listOf(
+    val stackAlwaysDelimiters by lazy { listOf(
     "\\uparrow", "\\downarrow", "\\updownarrow",
     "\\Uparrow", "\\Downarrow", "\\Updownarrow",
     "|", "\\|", "\\vert", "\\Vert",
     "\\lvert", "\\rvert", "\\lVert", "\\rVert",
     "\\lgroup", "\\rgroup", "\u27ee", "\u27ef",
     "\\lmoustache", "\\rmoustache", "\u23b0", "\u23b1"
-        )
+        )}
 
     // and delimiters that never stack
-    val stackNeverDelimiters = listOf(
-    "<", ">", "\\langle", "\\rangle", "/", "\\backslash", "\\lt", "\\gt")
+    val stackNeverDelimiters by lazy { listOf(
+    "<", ">", "\\langle", "\\rangle", "/", "\\backslash", "\\lt", "\\gt")}
 
     // Metrics of the different sizes. Found by looking at TeX's output of
     // $\bigl| // \Bigl| \biggl| \Biggl| \showlists$
     // Used to create stacked delimiters of appropriate sizes in makeSizedDelim.
-    val sizeToMaxHeight = listOf(0.0, 1.2, 1.8, 2.4, 3.0)
+    val sizeToMaxHeight by lazy { listOf(0.0, 1.2, 1.8, 2.4, 3.0)}
 
     // Delimiters that never stack try small delimiters and large delimiters only
-    val stackNeverDelimiterSequence = listOf(
+    val stackNeverDelimiterSequence by lazy { listOf(
         SmallDelimiter(Style.SCRIPTSCRIPT),
         SmallDelimiter(Style.SCRIPT),
         SmallDelimiter(Style.TEXT),
@@ -88,18 +88,18 @@ object RenderBuilderDelimiter {
         LargeDelimiter(DelimiterSize.TWO),
         LargeDelimiter(DelimiterSize.THREE),
         LargeDelimiter(DelimiterSize.FOUR)
-    )
+    )}
 
 // Delimiters that always stack try the small delimiters first, then stack
-    val stackAlwaysDelimiterSequence = listOf(
+    val stackAlwaysDelimiterSequence by lazy { listOf(
     SmallDelimiter(Style.SCRIPTSCRIPT),
     SmallDelimiter(Style.SCRIPT),
     SmallDelimiter(Style.TEXT),
-    StackDelimiter)
+    StackDelimiter)}
 
 // Delimiters that stack when large try the small and then large delimiters, and
 // stack afterwards
-    val stackLargeDelimiterSequence = listOf(
+    val stackLargeDelimiterSequence by lazy { listOf(
     SmallDelimiter(Style.SCRIPTSCRIPT),
     SmallDelimiter(Style.SCRIPT),
     SmallDelimiter(Style.TEXT),
@@ -107,7 +107,7 @@ object RenderBuilderDelimiter {
     LargeDelimiter(DelimiterSize.TWO),
     LargeDelimiter(DelimiterSize.THREE),
     LargeDelimiter(DelimiterSize.FOUR),
-    StackDelimiter)
+    StackDelimiter)}
 
     // All surds have 0.08em padding above the viniculum inside the SVG.
     // That keeps browser span height rounding error from pinching the line.

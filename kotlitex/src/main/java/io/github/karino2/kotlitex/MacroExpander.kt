@@ -33,13 +33,13 @@ class MacroExpander(val input: String, val settings: Settings, var mode: Mode = 
     fun endGroup() { macros.endGroup() }
 
     companion object {
-        val implicitCommands = setOf(
+        val implicitCommands by lazy { setOf(
         "\\relax",     // MacroExpander.js
         "^",           // Parser.js
         "_",           // Parser.js
         "\\limits",    // Parser.js
         "\\nolimits"  // Parser.js
-        )
+        ) }
     }
 
     /**

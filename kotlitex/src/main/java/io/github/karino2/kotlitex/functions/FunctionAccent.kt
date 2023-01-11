@@ -3,11 +3,11 @@ package io.github.karino2.kotlitex.functions
 import io.github.karino2.kotlitex.*
 
 object FunctionAccent {
-    val NON_STRETCHY_ACCENT_REGEX =
+    val NON_STRETCHY_ACCENT_REGEX by lazy {
         setOf(
             "\\acute", "\\grave", "\\ddot", "\\tilde", "\\bar",
             "\\breve", "\\check", "\\hat", "\\vec", "\\dot", "\\mathring"
-        )
+        )}
 
     // utils.getBaseElem
     /**

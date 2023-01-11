@@ -29,15 +29,15 @@ data class Style(val id: Int, val size: Int, val cramped: Boolean) {
         val SSc = 7
 
         // Lookup tables for switching from one style to another
-        val sup = listOf(S, Sc, S, Sc, SS, SSc, SS, SSc)
-        val sub = listOf(Sc, Sc, Sc, Sc, SSc, SSc, SSc, SSc)
-        val _fracNum = listOf(T, Tc, S, Sc, SS, SSc, SS, SSc)
-        val _fracDen = listOf(Tc, Tc, Sc, Sc, SSc, SSc, SSc, SSc)
-        val _cramp = listOf(Dc, Dc, Tc, Tc, Sc, Sc, SSc, SSc)
-        val _text = listOf(D, Dc, T, Tc, T, Tc, T, Tc)
+        val sup by lazy { listOf(S, Sc, S, Sc, SS, SSc, SS, SSc)}
+        val sub by lazy { listOf(Sc, Sc, Sc, Sc, SSc, SSc, SSc, SSc)}
+        val _fracNum by lazy { listOf(T, Tc, S, Sc, SS, SSc, SS, SSc)}
+        val _fracDen by lazy { listOf(Tc, Tc, Sc, Sc, SSc, SSc, SSc, SSc)}
+        val _cramp by lazy { listOf(Dc, Dc, Tc, Tc, Sc, Sc, SSc, SSc)}
+        val _text by lazy { listOf(D, Dc, T, Tc, T, Tc, T, Tc)}
 
         // Instances of the different styles
-        val styles = listOf(
+        val styles by lazy { listOf(
             Style(D, 0, false),
             Style(Dc, 0, true),
             Style(T, 1, false),
@@ -46,12 +46,12 @@ data class Style(val id: Int, val size: Int, val cramped: Boolean) {
             Style(Sc, 2, true),
             Style(SS, 3, false),
             Style(SSc, 3, true)
-        )
+        )}
 
-        val DISPLAY: Style = styles[D]
-        val TEXT: Style = styles[T]
-        val SCRIPT = styles[S]
-        val SCRIPTSCRIPT = styles[SS]
+        val DISPLAY: Style by lazy { styles[D] }
+        val TEXT: Style by lazy { styles[T] }
+        val SCRIPT by lazy { styles[S] }
+        val SCRIPTSCRIPT by lazy { styles[SS] }
     }
 
     /**
