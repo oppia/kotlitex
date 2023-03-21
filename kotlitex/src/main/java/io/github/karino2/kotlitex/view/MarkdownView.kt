@@ -2,6 +2,7 @@ package io.github.karino2.kotlitex.view
 
 import android.content.Context
 import android.content.res.AssetManager
+import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.util.AttributeSet
@@ -107,7 +108,7 @@ class SpannableMathSpanHandler(val assetManager: AssetManager, val baseSize: Flo
     private fun appendMathSpan(exp: String, isMathMode: Boolean) {
         isMathExist = true
         val size = if (isMathMode) mathExpressionSize else baseSize
-        val span = MathExpressionSpan(exp, size, assetManager, isMathMode)
+        val span = MathExpressionSpan(exp, size, assetManager, isMathMode, equationColor = Color.BLACK)
         span.ensureDrawable()
         val begin = spannable.length
         spannable.append("\$\$${exp}\$\$")
