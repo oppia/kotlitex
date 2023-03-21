@@ -129,13 +129,13 @@ class SpannableMathSpanHandler(val assetManager: AssetManager, val baseSize: Flo
 
 class MarkdownView(context: Context, attrSet: AttributeSet) : TextView(context, attrSet) {
     companion object {
-        var CACHE_ENABLED = true
+        /*var CACHE_ENABLED = true
         var CACHE_SIZE = 1024
         val cache = object : LinkedHashMap<String, Spannable>(128, 0.75f, true) {
             override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, Spannable>?): Boolean {
                 return this.size > CACHE_SIZE
             }
-        }
+        }*/
     }
 
     var job: Job? = null
@@ -148,8 +148,18 @@ class MarkdownView(context: Context, attrSet: AttributeSet) : TextView(context, 
         MathSpanBuilder(handler)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun setMarkdown(text: String) {
-        val prevJob = job
+        // This has been altered to be an unsupported method since properly
+        // fixing it is a bit difficult. The problem is that views shouldn't be
+        // interacting directly with GlobalScope, especially within a library.
+        // Fixing this would require piping a coroutine dispatcher to the
+        // library to use for recomputing the view with a mechanism to safely
+        // communicate that back to the main thread (and LiveData required a
+        // lifecycle owner which View cannot satisfy). Since Oppia doesn't
+        // require this view, it can just be commented out.
+        error("Unsupported method.")
+        /*val prevJob = job
         prevJob?.let { it.cancel() }
 
         if (CACHE_ENABLED) {
@@ -179,6 +189,6 @@ class MarkdownView(context: Context, attrSet: AttributeSet) : TextView(context, 
                     setText(handler.spannable)
                 }
             }
-        }
+        }*/
     }
 }

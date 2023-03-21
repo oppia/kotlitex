@@ -64,11 +64,11 @@ class AndroidFontLoader(private val assetManager: AssetManager) :
 
     companion object {
         fun fontToTypefaceMapKey(font: CssFont): String {
-            var variant = font.variant.capitalize()
+            var variant = font.variant.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
             if (variant == "Normal") {
                 variant = ""
             }
-            var weight = font.weight.capitalize()
+            var weight = font.weight.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
             if (weight == "Normal") {
                 weight = ""
             }

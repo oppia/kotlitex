@@ -2167,5 +2167,5 @@ object MetricMap {
         "Typewriter-Regular" to typewriterRegularMap()
     )
 
-    val metricMap = buildMetricMap()
+    val metricMap by lazy { buildMetricMap() }
 }

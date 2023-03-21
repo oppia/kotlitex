@@ -1,5 +1,7 @@
 package io.github.karino2.kotlitex
 
+import java.util.concurrent.ConcurrentHashMap
+
 data class FontMetrics(val cssEmPerMu: Double,
                        val slant: Double,
                        val space: Double,
@@ -64,7 +66,7 @@ data class FontMetrics(val cssEmPerMu: Double,
         //
         // The output of each of these commands is quite lengthy.  The only part we
         // care about is the FONTDIMEN section. Each value is measured in EMs.
-        val sigmasAndXis = mapOf(
+        val sigmasAndXis by lazy { mapOf(
             "slant" to arrayOf(0.250, 0.250, 0.250),       // sigma1
             "space" to arrayOf(0.000, 0.000, 0.000),       // sigma2
             "stretch" to arrayOf(0.000, 0.000, 0.000),     // sigma3
@@ -114,10 +116,11 @@ data class FontMetrics(val cssEmPerMu: Double,
             // `\showthe\doublerulesep` in LaTeX. Equals 2.0 / ptPerEm.
             "doubleRuleSep" to arrayOf(0.2, 0.2, 0.2)
         )
+        }
 
         // Original code is too JS specific way. We just write down without thinking...
 
-        val sigmasAndXisKeyList = listOf(
+        val sigmasAndXisKeyList by lazy { listOf(
             "slant",       // sigma1
             "space",       // sigma2
             "stretch",     // sigma3
@@ -167,6 +170,7 @@ data class FontMetrics(val cssEmPerMu: Double,
             // `\showthe\doublerulesep` in LaTeX. Equals 2.0 / ptPerEm.
             "doubleRuleSep"
         )
+        }
         fun createFontMetrics(cssEmPerMu : Double, argVals: List<Double>) : FontMetrics {
             val slant = argVals[0]
             val space = argVals[1]
@@ -234,7 +238,7 @@ data class FontMetrics(val cssEmPerMu: Double,
             doubleRuleSep
             )
         }
-        var fontMetricsBySizeIndex = mutableMapOf<Int, FontMetrics>()
+        val fontMetricsBySizeIndex by lazy { ConcurrentHashMap<Int, FontMetrics>() }
 
         /**
          * Get the font metrics for a given size.

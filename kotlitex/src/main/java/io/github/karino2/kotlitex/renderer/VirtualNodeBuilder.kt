@@ -98,6 +98,7 @@ class VirtualNodeBuilder(val children: List<RenderNode>, baseSize: Double, val f
         }
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun createItalicNode(node: RenderNode) {}
 
     /**
@@ -140,6 +141,7 @@ class VirtualNodeBuilder(val children: List<RenderNode>, baseSize: Double, val f
                 is RNodeSpan -> {
                     node.children.forEach { createRenderingState(it) }
                 }
+                else -> {}
             }
         }
     }

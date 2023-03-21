@@ -1,5 +1,7 @@
 package io.github.karino2.kotlitex
 
+import java.util.concurrent.ConcurrentHashMap
+
 // LaTeX argument type.
 //   - "size": A size-like thing, such as "1em" or "5ex"
 //   - "color": An html color, like "#abc" or "blue"
@@ -97,8 +99,8 @@ data class FunctionDef(val spec: FunctionSpec,
  */
 
 object LatexFunctions {
-    val functions = mutableMapOf<String, FunctionDef>()
-    val renderGroupBuilders = mutableMapOf<String, RenderNodeHandlerType>()
+    val functions by lazy {ConcurrentHashMap<String, FunctionDef>()}
+    val renderGroupBuilders by lazy {ConcurrentHashMap<String, RenderNodeHandlerType>()}
 
     fun defineFunction(spec: FunctionSpec, names: List<String>, handler: HandlerType, groupHandler: RenderNodeHandlerType) {
         val fundef = FunctionDef(spec, handler)

@@ -32,17 +32,17 @@ object SymbolDefinitions {
     val ams = "ams"
 
     // groups:
-    val accent = NonAtoms.accent_token
-    val bin = Atoms.bin
-    val close = Atoms.close
-    val inner = Atoms.inner
-    val mathord = NonAtoms.mathord
-    val op = NonAtoms.op_token
-    val open = Atoms.open
-    val punct = Atoms.punct
-    val rel = Atoms.rel
-    val spacing = NonAtoms.spacing
-    val textord = NonAtoms.textord
+    val accent by lazy { NonAtoms.accent_token }
+    val bin by lazy { Atoms.bin }
+    val close by lazy { Atoms.close }
+    val inner by lazy { Atoms.inner }
+    val mathord by lazy { NonAtoms.mathord }
+    val op by lazy { NonAtoms.op_token }
+    val open by lazy { Atoms.open }
+    val punct by lazy { Atoms.punct }
+    val rel by lazy { Atoms.rel }
+    val spacing by lazy { NonAtoms.spacing }
+    val textord by lazy { NonAtoms.textord }
 
     // Now comes the symbol table
     fun defineSymbol(mode: Mode, font: Font, group: Group, replace: String?, name: String, acceptUnicodeChar: Boolean = false) = Symbols.defineSymbol(mode, font, group, replace, name, acceptUnicodeChar)

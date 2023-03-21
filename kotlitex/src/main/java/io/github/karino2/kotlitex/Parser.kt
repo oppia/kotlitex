@@ -49,6 +49,7 @@ enum class NonAtoms : Group {
 
 data class CharInfo(val font: Font, val group: Group, val replace: String?)
 
+@Suppress("UNUSED_PARAMETER")
 data class Settings(val displayMode: Boolean = false, val throwOnError: Boolean = true,
                     val errorColor: String = "#cc0000",
                     val macros: MutableMap<String, MacroDefinition> /*MacroMap*/ =  mutableMapOf(),
@@ -145,7 +146,7 @@ data class AccentRelation(val text: String, val math: String) {
 
 class Parser(val input: String, val settings: Settings = Settings()) {
     companion object {
-        val endOfExpression = listOf("}", "\\end", "\\right", "&")
+        val endOfExpression by lazy { listOf("}", "\\end", "\\right", "&") }
         val SUPSUB_GREEDINESS = 1
 
         init {
@@ -698,9 +699,9 @@ class Parser(val input: String, val settings: Settings = Settings()) {
                         */
             }
             symbol = s
-        } else if (text[0].toInt() >= 0x80) { // no symbol for e.g. ^
+        } else if (text[0].code >= 0x80) { // no symbol for e.g. ^
             if (settings.strict != null) {
-                if (!supportedCodepoint(text[0].toInt())) {
+                if (!supportedCodepoint(text[0].code)) {
                     this.settings.reportNonstrict("unknownSymbol",
                         "Unrecognized Unicode character \"${text[0]}\"" +
                                 " (${text[0]})", nucleus)

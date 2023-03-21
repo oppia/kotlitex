@@ -16,6 +16,7 @@ data class Measurement(val number: Int, val unit: String) {
     }
 }
 
+@Suppress("UNUSED_PARAMETER")
 object RenderTreeBuilder {
     val groupBuilders: MutableMap<String, RenderNodeHandlerType>
         get() = LatexFunctions.renderGroupBuilders
@@ -30,9 +31,9 @@ object RenderTreeBuilder {
      * children.
      */
     fun sizeElementFromChildren(elem: RNodeSpan) {
-        var height = elem.children.map { it.height }.max() ?: 0.0
-        var depth = elem.children.map { it.depth }.max() ?: 0.0
-        var maxFontSize = elem.children.map { it.maxFontSize }.max() ?: 0.0
+        var height = elem.children.map { it.height }.maxOrNull() ?: 0.0
+        var depth = elem.children.map { it.depth }.maxOrNull() ?: 0.0
+        var maxFontSize = elem.children.map { it.maxFontSize }.maxOrNull() ?: 0.0
 
         elem.height = height
         elem.depth = depth
@@ -147,11 +148,11 @@ object RenderTreeBuilder {
     }
 
     // The following have to be loaded from Main-Italic font, using class mathit
-    val mathitLetters = setOf(
+    val mathitLetters by lazy { setOf(
         "\\imath", "ı",       // dotless i
         "\\jmath", "ȷ",       // dotless j
         "\\pounds", "\\mathsterling", "\\textsterling", "£"   // pounds symbol
-    )
+    )}
 
     /**
      * Determines which of the two font names (Main-Italic and Math-Italic) and
@@ -287,7 +288,7 @@ object RenderTreeBuilder {
     // A map between tex font commands an MathML mathvariant attribute values
     data class FontMapElem(val /* bold, normal, italic */ variant: String, val fontName: String)
 
-    val fontMap = mapOf(
+    val fontMap by lazy { mapOf(
         // styles
         "mathbf" to FontMapElem("bold", "Main-Bold"),
         "mathrm" to FontMapElem(
@@ -335,19 +336,19 @@ object RenderTreeBuilder {
             "monospace",
             "Typewriter-Regular"
         )
-    )
+    )}
 
     data class OneSvgData(val path: String, val width: Double, val height: Double)
 
     // svgData in js
-    val pathData = mapOf(
+    val pathData by lazy { mapOf(
         //   path, width, height
         "vec" to OneSvgData("vec", 0.471, 0.714),                // values from the font glyph
         "oiintSize1" to OneSvgData("oiintSize1", 0.957, 0.499),  // oval to overlay the integrand
         "oiintSize2" to OneSvgData("oiintSize2", 1.472, 0.659),
         "oiiintSize1" to OneSvgData("oiiintSize1", 1.304, 0.499),
         "oiiintSize2" to OneSvgData("oiiintSize2", 1.98, 0.659)
-    )
+    )}
 
     // staticSvg in js.
     fun staticPath(value: String, options: Options): RNodePathSpan {
@@ -675,7 +676,7 @@ object RenderTreeBuilder {
         // Ignore explicit spaces (e.g., \;, \,) when determining what implicit
         // spacing should go between atoms of different classes, and add dummy
         // spans for determining spacings between surrounding atoms.
-        val rowNonSpace = rawGroups.filter { group -> group != null && !group.klasses.contains(CssClass.mspace) }
+        val rowNonSpace = rawGroups.filter { group -> !group.klasses.contains(CssClass.mspace) }
         val nonSpaces = listOf<RenderNode?>(null, *rowNonSpace.toTypedArray(), null)
         /* TODO:
         const nonSpaces: (?HtmlDomNode)[] = [

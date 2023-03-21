@@ -51,7 +51,7 @@ object Stretchy {
 
     data class KatexImageData(val paths: List<String>, val minWidth: Double, val viewBoxHeight: Int, val align: String = "")
 
-    val katexImagesData = mapOf(
+    val katexImagesData by lazy { mapOf(
         //   path(s), minWidth, height, align
         "overrightarrow" to KatexImageData(listOf("rightarrow"), 0.888, 522, "xMaxYMin"),
         "overleftarrow" to KatexImageData(listOf("leftarrow"), 0.888, 522, "xMinYMin"),
@@ -100,7 +100,7 @@ object Stretchy {
         "rightharpoonaboveshortbar"), 1.75, 716),
         "xleftequilibrium" to KatexImageData(listOf("shortbaraboveleftharpoon",
         "shortrightharpoonabovebar"), 1.75, 716)
-    )
+    )}
 
     // from stretchy.js
     fun groupLength(arg: ParseNode): Int {

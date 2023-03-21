@@ -1,5 +1,7 @@
 package io.github.karino2.kotlitex
 
+import java.util.concurrent.ConcurrentHashMap
+
 /*
 This file basically contain the code of macros.js in original katex.
  */
@@ -11,7 +13,7 @@ data class MacroString(val value: String) : MacroDefinition()
 data class MacroFunction(val func: (MacroExpander)-> MacroDefinition) : MacroDefinition()
 
 object Macros {
-    val builtinMacros = mutableMapOf<String, MacroDefinition>()
+    val builtinMacros by lazy { ConcurrentHashMap<String, MacroDefinition>() }
     fun defineMacro(name: String, body: MacroDefinition) {
         builtinMacros[name] = body
     }

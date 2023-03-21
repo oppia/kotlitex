@@ -175,6 +175,7 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
                 drawableSurface.restore()
                 paint.style = Paint.Style.STROKE
             }
+            else -> {}
         }
     }
 
@@ -195,6 +196,7 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
                     calculateBounds(wholeBounds, it)
                 }
             }
+            else -> {}
         }
     }
 
@@ -218,8 +220,9 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
     }
 }
 
+@Suppress("UNUSED_PARAMETER")
 // Similar to DynamicDrawableSpan, but getSize is a little different.
-// I create super class of DynamicDrawableSpan because getCachedDrawable is private and we neet it.
+// I created super class of DynamicDrawableSpan because getCachedDrawable is private and we neet it.
 class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManager: AssetManager, val isMathMode: Boolean, val equationColor: Int) : ReplacementSpan() {
     enum class Align {
         Bottom, BaseLine
